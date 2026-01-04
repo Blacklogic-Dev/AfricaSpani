@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AfricaSpani System Visual</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background-color: #000;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+    #console {
+      padding: 20px;
+      height: 100vh;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    .line { margin-bottom: 2px; }
+    .success { color: #00ff00; }
+    .update { color: #00ccff; }
+    .warning { color: #ffff00; }
+    .error { color: #ff0000; }
+    .blinking-cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: #00ff00;
+      animation: blink 1s infinite;
+      margin-left: 2px;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { background-color: #00ff00; }
+      25%, 75% { background-color: transparent; }
+    }
+  </style>
+</head>
+<body>
+  <div id="console"></div>
+
+  <script>
+    const consoleEl = document.getElementById('console');
+
+    // Function to generate random binary string
+    function randomBinary(length) {
+      let result = '';
+      for(let i=0; i<length; i++){
+        result += Math.random() > 0.5 ? '1' : '0';
+      }
+      return result;
+    }
+
+    // Function to generate pseudo-encrypted code
+    function encryptedCode(prefix = 'ENC') {
+      const randomPart = Math.floor(Math.random() * 1000000).toString().padStart(6,'0');
+      return `${prefix}-${randomPart}`;
+    }
+
+    const lines = [
+      "System restart...",
+      "....update uploading...",
+      "Checking system integrity...",
+      "Initializing data encryption...",
+      `Binary load: ${randomBinary(32)}`,
+      "Server IP: 192.168.0.10",
+      "Cloud sync active...",
+      `Labour ID Generated: ${encryptedCode('LBR')}`,
+      `Candidate Added: ${encryptedCode('CND')} | Status: Qualified`,
+      `Project Added: ${encryptedCode('PRJ')} | Type: ${encryptedCode('TYP')}`,
+      `Worker Time In Recorded: ${encryptedCode('LBR')}`,
+      `Worker Time Out Recorded: ${encryptedCode('LBR')}`,
+      `Available List Updated: ${encryptedCode('CND')} -> Waiting`,
+      "Database Sync Complete",
+      "Encryption Verified",
+      "Cloud Backup Successful",
+      "Awaiting new inputs..."
+    ];
+
+    let currentLine = 0;
+    let currentChar = 0;
+
+    function typeLine() {
+      if(currentLine >= lines.length) {
+        // Keep looping for demonstration
+        currentLine = 0;
+      }
+      const lineText = lines[currentLine];
+      const span = document.createElement('span');
+      span.classList.add('line', 'success');
+      consoleEl.appendChild(span);
+
+      currentChar = 0;
+
+      const typingInterval = setInterval(() => {
+        span.textContent += lineText[currentChar];
+        currentChar++;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+        if(currentChar >= lineText.length) {
+          clearInterval(typingInterval);
+          const br = document.createElement('br');
+          consoleEl.appendChild(br);
+          currentLine++;
+          setTimeout(typeLine, 500 + Math.random()*800);
+        }
+      }, 40);
+    }
+
+    typeLine();
+
+    // Blinking cursor
+    const cursor = document.createElement('span');
+    cursor.classList.add('blinking-cursor');
+    consoleEl.appendChild(cursor);
+
+    setInterval(() => {
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }, 100);
+  </script>
+
+  <!-- Back to Dashboard Button (Bottom Right) -->
+  <a href="index.html"
+     class="fixed bottom-4 right-4 bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-md font-semibold flex items-center shadow-lg z-50 transition">
+     <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+  </a>
+</body>
+</html>

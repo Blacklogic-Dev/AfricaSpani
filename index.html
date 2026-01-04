@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AfricaSpani | BlackLogic Technologies</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+ 
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-sky-100 min-h-screen">
+
+  <!-- MOBILE HAMBURGER -->
+  <div class="lg:hidden fixed top-4 left-4 z-50">
+    <button id="hamburger" class="text-white bg-sky-500 p-3 rounded-md shadow-md focus:outline-none">
+      <i class="fas fa-bars text-xl"></i>
+    </button>
+  </div>
+
+<!-- SIDE DRAWER -->
+<aside
+  id="sideDrawer"
+  class="fixed top-0 left-0 w-64 h-full bg-sky-500 text-white
+         transform -translate-x-full lg:translate-x-0
+         transition-transform duration-300 z-40 p-6"
+>
+
+  <!-- Title -->
+  <h1 class="text-2xl font-bold mb-8">
+    AfricaSpani System
+  </h1>
+
+  <!-- Navigation -->
+  <ul class="space-y-5 text-sm font-medium">
+
+    <li>
+      <a href="candidate.html" class="flex items-center gap-3 hover:text-gray-200">
+        <i class="fas fa-users"></i>
+        <span>Candidate Data</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="projects.html" class="flex items-center gap-3 hover:text-gray-200">
+        <i class="fas fa-briefcase"></i>
+        <span>Tender / Project Data</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="attendance.html" class="flex items-center gap-3 hover:text-gray-200">
+        <i class="fas fa-calendar-check"></i>
+        <span>Attendance System</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="waiting.html" class="flex items-center gap-3 hover:text-gray-200">
+        <i class="fas fa-user-clock"></i>
+        <span>Available & Waiting</span>
+      </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="border-white/30 my-4">
+
+    <li>
+      <a href="system.html" class="flex items-center gap-3 hover:text-gray-200">
+        <i class="fas fa-chart-line"></i>
+        <span>Backend System</span>
+      </a>
+    </li>
+
+    <li class="text-xs text-white/80 leading-relaxed pl-1">
+      <p>• Data captured...</p>
+      <p>• Data processed...</p>
+      <p>• System cloud control</p>
+    </li>
+
+  </ul>
+
+</aside>
+
+  <!-- OVERLAY -->
+  <div id="overlay" class="hidden fixed inset-0 bg-black/50 z-30 lg:hidden"></div>
+
+  <!-- MAIN CONTENT -->
+  <main id="mainContent" class="flex-1 p-8 lg:ml-64 flex flex-col items-center justify-start pt-16">
+
+    <!-- LOGIN CARD -->
+    <div id="loginCard" class="w-full max-w-sm bg-white rounded-xl shadow-lg flex flex-col items-center justify-center px-6 py-6">
+      <img src="spani.jpg" alt="AfricaSpani Logo" class="w-20 mb-3 rounded-md object-contain">
+      <h1 class="text-lg font-semibold text-gray-800 mb-4">AfricaSpani Database</h1>
+
+      <input id="username" type="text" placeholder="Username" class="w-full mb-3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-400 text-sm">
+      <input id="password" type="password" placeholder="Password" class="w-full mb-3 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-400 text-sm">
+
+      <p id="error" class="text-red-500 text-xs mb-2 hidden">Invalid credentials</p>
+
+      <button onclick="login()" class="w-full bg-sky-500 hover:bg-sky-600 text-white py-2 rounded-md text-sm font-semibold transition">Login</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="hidden w-full">
+
+      <!-- Logo & Welcome -->
+      <div class="flex flex-col items-center mb-8 mt-4">
+        <img src="spani.jpg" alt="Spani Logo" class="w-72 h-72 mb-4 rounded-full border-4 border-sky-300">
+        <h2 id="welcome" class="text-2xl font-semibold text-gray-800"></h2>
+      </div>
+
+      <!-- Labor Chart -->
+      <div class="max-w-md mx-auto mb-12 bg-white p-6 rounded-lg shadow-lg">
+        <canvas id="laborChart"></canvas>
+        <ul class="mt-6 space-y-2 text-gray-700 font-mono">
+          <li>Security 50%</li>
+          <li>Cleaners 20%</li>
+          <li>Construction 10%</li>
+          <li>Software & IT 10%</li>
+          <li>Business Management & Admin 10%</li>
+          <li>Total Labour = 100</li>
+        </ul>
+      </div>
+
+      <!-- Company Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="font-semibold mb-2">Partnerships</h3>
+          <div class="w-full bg-gray-200 rounded-full h-6">
+            <div class="bg-sky-500 h-6 rounded-full" style="width: 70%"></div>
+          </div>
+          <p class="mt-2 text-gray-600">70% Completed</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="font-semibold mb-2">Projects In Progress</h3>
+          <div class="w-full bg-gray-200 rounded-full h-6">
+            <div class="bg-sky-500 h-6 rounded-full" style="width: 45%"></div>
+          </div>
+          <p class="mt-2 text-gray-600">45% Completed</p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- SCRIPTS -->
+  <script>
+    // HAMBURGER MENU
+    const hamburger = document.getElementById('hamburger');
+    const drawer = document.getElementById('sideDrawer');
+    const overlay = document.getElementById('overlay');
+
+    hamburger.addEventListener('click', () => {
+      drawer.classList.toggle('-translate-x-full');
+      overlay.classList.toggle('hidden');
+    });
+
+    overlay.addEventListener('click', () => {
+      drawer.classList.add('-translate-x-full');
+      overlay.classList.add('hidden');
+    });
+
+    // LOGIN FUNCTION
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const error = document.getElementById("error");
+
+      const allowedUsers = ["KX0011", "KX1011"];
+      const allowedPassword = "Blacklogic@24";
+
+      if (allowedUsers.includes(username) && password === allowedPassword) {
+        error.classList.add("hidden");
+        document.getElementById("loginCard").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+
+        // Welcome message
+        const welcomeEl = document.getElementById("welcome");
+        if(username === "KX0011") {
+          welcomeEl.innerText = "Welcome Lead Engineer, BlackLogic Mkholo";
+        } else if(username === "KX1011") {
+          welcomeEl.innerText = "Welcome Lead Designer, Quinn Asanda";
+        }
+
+        // LABOR CHART
+        const ctx = document.getElementById('laborChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Security', 'Cleaners', 'Construction', 'Software & IT', 'Business/Admin'],
+            datasets: [{
+              label: 'Labour Distribution',
+              data: [50, 20, 10, 10, 10],
+              backgroundColor: [
+                'rgba(14, 165, 233, 0.8)',
+                'rgba(229, 231, 235, 0.8)',
+                'rgba(75, 85, 99, 0.8)',
+                'rgba(34, 197, 94, 0.8)',
+                'rgba(234, 179, 8, 0.8)'
+              ],
+              borderColor: ['rgba(255,255,255,1)'],
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'bottom' }
+            }
+          }
+        });
+
+      } else {
+        error.classList.remove("hidden");
+      }
+    }
+  </script>
+
+</body>
+</html>

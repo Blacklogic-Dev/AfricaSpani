@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available & Waiting | AfricaSpani</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <!-- Back Button -->
+  <a href="index.html" class="inline-flex items-center mb-6 text-sky-500 hover:text-sky-700 font-semibold">
+    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+  </a>
+
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">Available & Waiting System</h1>
+
+  <!-- Worker Form -->
+  <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+    <h2 class="font-semibold mb-4 text-gray-700 text-xl">Add Worker</h2>
+    <form id="workerForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <div class="flex flex-col">
+        <label for="initials" class="text-gray-600 mb-1 font-medium">Initials & Surname</label>
+        <input type="text" id="initials" placeholder="Enter Initials & Surname"
+          class="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-400" required>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="jobTitle" class="text-gray-600 mb-1 font-medium">Job Title</label>
+        <input type="text" id="jobTitle" placeholder="Enter Job Title"
+          class="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-400" required>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="status" class="text-gray-600 mb-1 font-medium">Status</label>
+        <select id="status" class="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-400" required>
+          <option value="Active">Active</option>
+          <option value="Waiting">Waiting</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="cellphone" class="text-gray-600 mb-1 font-medium">Cellphone Number</label>
+        <input type="text" id="cellphone" placeholder="Enter Cellphone Number"
+          class="border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-400" required>
+      </div>
+
+      <div class="col-span-1 md:col-span-2">
+        <button type="submit"
+          class="w-full bg-sky-500 hover:bg-sky-600 text-white py-2 rounded-md font-semibold flex justify-center items-center transition">
+          <i class="fas fa-plus mr-2"></i> Add Worker
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Temporary Worker Grid -->
+  <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+    <h2 class="font-semibold mb-4 text-gray-700">Temporary Worker Grid</h2>
+    <table class="w-full text-left table-auto">
+      <thead>
+        <tr class="bg-sky-500 text-white">
+          <th class="px-3 py-2">Initials & Surname</th>
+          <th class="px-3 py-2">Job Title</th>
+          <th class="px-3 py-2">Status</th>
+          <th class="px-3 py-2">Cellphone</th>
+          <th class="px-3 py-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="workerGrid"></tbody>
+    </table>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    let workers = [];
+    const workerForm = document.getElementById("workerForm");
+    const workerGrid = document.getElementById("workerGrid");
+
+    // Render grid function
+    function renderGrid() {
+      workerGrid.innerHTML = "";
+      workers.forEach((worker, index) => {
+        const tr = document.createElement("tr");
+        tr.className = "border-b";
+        tr.innerHTML = `
+          <td class="px-3 py-2">${worker.initials}</td>
+          <td class="px-3 py-2">${worker.jobTitle}</td>
+          <td class="px-3 py-2">${worker.status}</td>
+          <td class="px-3 py-2">${worker.cellphone}</td>
+          <td class="px-3 py-2 space-x-2">
+            <button onclick="editWorker(${index})" class="text-yellow-500 hover:text-yellow-700"><i class="fas fa-pen"></i></button>
+            <button onclick="deleteWorker(${index})" class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+        workerGrid.appendChild(tr);
+      });
+    }
+
+    // Add Worker
+    workerForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const initials = document.getElementById("initials").value.trim();
+      const jobTitle = document.getElementById("jobTitle").value.trim();
+      const status = document.getElementById("status").value;
+      const cellphone = document.getElementById("cellphone").value.trim();
+
+      // Confirm username
+      const username = prompt("Enter username to confirm addition:");
+      if(username !== "KX0011" && username !== "KX1011") {
+        alert("Invalid username, worker not added!");
+        return;
+      }
+
+      workers.push({initials, jobTitle, status, cellphone});
+      renderGrid();
+      workerForm.reset();
+    });
+
+    // Edit Worker
+    function editWorker(index) {
+      const worker = workers[index];
+      const username = prompt("Enter username to confirm edit:");
+      if(username !== "KX0011" && username !== "KX1011") {
+        alert("Invalid username, edit cancelled!");
+        return;
+      }
+      document.getElementById("initials").value = worker.initials;
+      document.getElementById("jobTitle").value = worker.jobTitle;
+      document.getElementById("status").value = worker.status;
+      document.getElementById("cellphone").value = worker.cellphone;
+      workers.splice(index, 1);
+      renderGrid();
+    }
+
+    // Delete Worker
+    function deleteWorker(index) {
+      const username = prompt("Enter username to confirm deletion:");
+      if(username !== "KX0011" && username !== "KX1011") {
+        alert("Invalid username, deletion cancelled!");
+        return;
+      }
+      workers.splice(index, 1);
+      renderGrid();
+    }
+  </script>
+
+</body>
+</html>
